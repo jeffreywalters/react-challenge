@@ -45,7 +45,7 @@ export const actions = {
       id: id,
       status: newStatus,
       updated_at: moment.utc().format('YYYY-MM-DD HH:mm:SS Z'),
-      type: requestConstants.CHANGE_STATUS
+      type: constants.CHANGE_STATUS
     }
   }
 }
