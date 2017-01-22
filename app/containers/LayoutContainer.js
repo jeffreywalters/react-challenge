@@ -5,7 +5,7 @@ const Layout = (props) => (
     <header>Header</header>
     {props.children}
     <footer>Footer</footer>
-  </div>  
+  </div>
 )
 Layout.propTypes = {
   children: React.PropTypes.element.isRequired

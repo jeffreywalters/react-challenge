@@ -50,5 +50,7 @@ module.exports = {
         "react/jsx-uses-vars": 1,
         "no-unused-vars": 1,
         "prefer-const": 1,
+        "space-in-parens": 0,
+        "space-before-blocks": 0
     }
 };

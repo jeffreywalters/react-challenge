@@ -17,7 +17,7 @@ class RequestsContainer extends React.Component {
   _getFilteredRequests(requests, status) {
     switch ( status ){
       case 'All Status':
-        return requests;
+        return requests
       case 'Approved':
         return requests.filter( request => request.status === 'Approved' )
       case 'Pending':
@@ -25,7 +25,7 @@ class RequestsContainer extends React.Component {
       case 'Denied':
         return requests.filter( request => request.status === 'Denied' )
       default:
-        return requests;
+        return requests
     }
   }
 
