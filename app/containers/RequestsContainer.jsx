@@ -4,14 +4,17 @@ import RequestTable from '../components/RequestTable'
 import { connect } from 'react-redux'
 import { actions as requestActions } from '../redux/modules/requests'
 
-
 class RequestsContainer extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      filter: 'All Status'
-    }
-    this._setFilter = this._setFilter.bind(this)
+
+  static propTypes = {
+    requests: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    status: React.PropTypes.string,
+    deleteRequest: React.PropTypes.func,
+    setStatus: React.PropTypes.func
+  }
+
+  state = {
+    filter: 'All Status'
   }
 
   _getFilteredRequests(requests, status) {
@@ -29,7 +32,7 @@ class RequestsContainer extends React.Component {
     }
   }
 
-  _setFilter(filter){
+  _setFilter = (filter) => {
     this.setState({filter: filter})
   }
 
@@ -51,13 +54,6 @@ class RequestsContainer extends React.Component {
       </div>
     )
   }
-}
-
-RequestsContainer.propTypes = {
-  requests: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  status: React.PropTypes.string,
-  deleteRequest: React.PropTypes.func,
-  setStatus: React.PropTypes.func
 }
 
 const mapStateToProps = (state, ownProps) => {

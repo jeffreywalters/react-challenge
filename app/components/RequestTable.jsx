@@ -3,10 +3,12 @@ import moment from 'moment'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
 
 class RequestTable extends React.Component {
-  constructor(...args){
-    super(...args)
-    this._handleStatusClick = this._handleStatusClick.bind(this)
-    this._handleDeleteClick = this._handleDeleteClick.bind(this)
+
+  static propTypes = {
+    requests: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    deleteRequest: React.PropTypes.func,
+    addRequest: React.PropTypes.func,
+    setStatus: React.PropTypes.func
   }
 
   componentDidMount () {
@@ -95,14 +97,14 @@ class RequestTable extends React.Component {
     )
   }
 
-  _handleStatusClick(e) {
+  _handleStatusClick = (e) => {
     const elm = e.target
     const id = elm.getAttribute('data-id')
     const newstatus = elm.getAttribute('data-status')
     this.props.setStatus(id, newstatus)
   }
 
-  _handleDeleteClick(e) {
+  _handleDeleteClick = (e) => {
     const anchor = e.target
     const tr = anchor.parentNode.parentNode
     console.info(e.target)
@@ -111,13 +113,6 @@ class RequestTable extends React.Component {
     this.props.deleteRequest(id)
   }
 
-}
-
-RequestTable.propTypes = {
-  requests: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  deleteRequest: React.PropTypes.func,
-  addRequest: React.PropTypes.func,
-  setStatus: React.PropTypes.func
 }
 
 export default RequestTable

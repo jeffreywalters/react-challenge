@@ -47496,16 +47496,22 @@
 	var RequestsContainer = function (_React$Component) {
 	  (0, _inherits3.default)(RequestsContainer, _React$Component);
 
-	  function RequestsContainer(props) {
+	  function RequestsContainer() {
+	    var _ref;
+
+	    var _temp, _this, _ret;
+
 	    (0, _classCallCheck3.default)(this, RequestsContainer);
 
-	    var _this = (0, _possibleConstructorReturn3.default)(this, (RequestsContainer.__proto__ || Object.getPrototypeOf(RequestsContainer)).call(this, props));
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
 
-	    _this.state = {
+	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RequestsContainer.__proto__ || Object.getPrototypeOf(RequestsContainer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 	      filter: 'All Status'
-	    };
-	    _this._setFilter = _this._setFilter.bind(_this);
-	    return _this;
+	    }, _this._setFilter = function (filter) {
+	      _this.setState({ filter: filter });
+	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
 	  }
 
 	  (0, _createClass3.default)(RequestsContainer, [{
@@ -47529,11 +47535,6 @@
 	        default:
 	          return requests;
 	      }
-	    }
-	  }, {
-	    key: '_setFilter',
-	    value: function _setFilter(filter) {
-	      this.setState({ filter: filter });
 	    }
 	  }, {
 	    key: 'render',
@@ -47574,6 +47575,7 @@
 	  deleteRequest: _react2.default.PropTypes.func,
 	  setStatus: _react2.default.PropTypes.func
 	};
+
 
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	  return {
@@ -48325,28 +48327,26 @@
 	var RequestFilter = function (_React$Component) {
 	  (0, _inherits3.default)(RequestFilter, _React$Component);
 
-	  function RequestFilter(props) {
+	  function RequestFilter() {
+	    var _ref;
+
+	    var _temp, _this, _ret;
+
 	    (0, _classCallCheck3.default)(this, RequestFilter);
 
-	    var _this = (0, _possibleConstructorReturn3.default)(this, (RequestFilter.__proto__ || Object.getPrototypeOf(RequestFilter)).call(this, props));
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
 
-	    _this._handleFilterChange = _this._handleFilterChange.bind(_this);
-	    _this._setSelected = _this._setSelected.bind(_this);
-	    return _this;
+	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RequestFilter.__proto__ || Object.getPrototypeOf(RequestFilter)).call.apply(_ref, [this].concat(args))), _this), _this._handleFilterChange = function (e) {
+	      var status = e.target.value;
+	      _this.props.setFilter(status);
+	    }, _this._setSelected = function (type) {
+	      return type === _this.props.status ? 'select' : '';
+	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
 	  }
 
 	  (0, _createClass3.default)(RequestFilter, [{
-	    key: '_handleFilterChange',
-	    value: function _handleFilterChange(e) {
-	      var status = e.target.value;
-	      this.props.setFilter(status);
-	    }
-	  }, {
-	    key: '_setSelected',
-	    value: function _setSelected(type) {
-	      return type === this.props.status ? 'select' : '';
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      // filter select list
@@ -48392,7 +48392,6 @@
 	RequestFilter.propTypes = {
 	  setFilter: _react2.default.PropTypes.func
 	};
-
 	exports.default = RequestFilter;
 
 /***/ },
@@ -48439,17 +48438,27 @@
 	  function RequestTable() {
 	    var _ref;
 
+	    var _temp, _this, _ret;
+
 	    (0, _classCallCheck3.default)(this, RequestTable);
 
 	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 	      args[_key] = arguments[_key];
 	    }
 
-	    var _this = (0, _possibleConstructorReturn3.default)(this, (_ref = RequestTable.__proto__ || Object.getPrototypeOf(RequestTable)).call.apply(_ref, [this].concat(args)));
-
-	    _this._handleStatusClick = _this._handleStatusClick.bind(_this);
-	    _this._handleDeleteClick = _this._handleDeleteClick.bind(_this);
-	    return _this;
+	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RequestTable.__proto__ || Object.getPrototypeOf(RequestTable)).call.apply(_ref, [this].concat(args))), _this), _this._handleStatusClick = function (e) {
+	      var elm = e.target;
+	      var id = elm.getAttribute('data-id');
+	      var newstatus = elm.getAttribute('data-status');
+	      _this.props.setStatus(id, newstatus);
+	    }, _this._handleDeleteClick = function (e) {
+	      var anchor = e.target;
+	      var tr = anchor.parentNode.parentNode;
+	      console.info(e.target);
+	      var id = tr.getAttribute('data-requestkey');
+	      console.log('delete ID:', id);
+	      _this.props.deleteRequest(id);
+	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
 	  }
 
 	  (0, _createClass3.default)(RequestTable, [{
@@ -48607,24 +48616,6 @@
 	        })
 	      );
 	    }
-	  }, {
-	    key: '_handleStatusClick',
-	    value: function _handleStatusClick(e) {
-	      var elm = e.target;
-	      var id = elm.getAttribute('data-id');
-	      var newstatus = elm.getAttribute('data-status');
-	      this.props.setStatus(id, newstatus);
-	    }
-	  }, {
-	    key: '_handleDeleteClick',
-	    value: function _handleDeleteClick(e) {
-	      var anchor = e.target;
-	      var tr = anchor.parentNode.parentNode;
-	      console.info(e.target);
-	      var id = tr.getAttribute('data-requestkey');
-	      console.log('delete ID:', id);
-	      this.props.deleteRequest(id);
-	    }
 	  }]);
 	  return RequestTable;
 	}(_react2.default.Component);
@@ -48635,7 +48626,6 @@
 	  addRequest: _react2.default.PropTypes.func,
 	  setStatus: _react2.default.PropTypes.func
 	};
-
 	exports.default = RequestTable;
 
 /***/ },

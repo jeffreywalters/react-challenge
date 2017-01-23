@@ -2,18 +2,17 @@ import React from 'react'
 import { Link } from 'react-router'
 
 class RequestFilter extends React.Component {
-  constructor(props) {
-    super(props)
-    this._handleFilterChange = this._handleFilterChange.bind(this)
-    this._setSelected = this._setSelected.bind(this)
+
+  static propTypes = {
+    setFilter: React.PropTypes.func
   }
 
-  _handleFilterChange(e) {
+  _handleFilterChange = (e) => {
     const status = e.target.value
     this.props.setFilter(status)
   }
 
-  _setSelected(type) {
+  _setSelected = (type) => {
     return type === this.props.status ? 'select' : ''
   }
 
@@ -43,10 +42,6 @@ class RequestFilter extends React.Component {
       </div>
     )
   }
-}
-
-RequestFilter.propTypes = {
-  setFilter: React.PropTypes.func
 }
 
 export default RequestFilter
