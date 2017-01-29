@@ -13,12 +13,18 @@ export const constants = {
   FETCH_SUCCESS: 'Requests/FETCH_SUCCESS',
   FETCH_FAILURE: 'Requests/FETCH_FAILURE',
   REMOVE_REQUEST: 'Requests/REMOVE_REQUEST',
-  CHANGE_STATUS: 'Requests/CHANGE_STATUS'
+  CHANGE_STATUS: 'Requests/CHANGE_STATUS',
+  EDIT: 'Requests/EDIT'
 }
 
 export const actions = {
   fetchRequests() {
     return async (dispatch, getState) => {
+      const requests = getState().requests.requests
+      if (requests.length){
+        dispatch({ type: constants.FETCH_SUCCESS, requests })
+        return;
+      }
       try {
         dispatch({ type: constants.FETCH })
         console.log('start delay')
@@ -46,6 +52,15 @@ export const actions = {
       status: newStatus,
       updated_at: moment.utc().format('YYYY-MM-DD HH:mm:SS Z'),
       type: constants.CHANGE_STATUS
+    }
+  },
+  editRequest(id, newStatus, title){
+    return {
+      id: id,
+      status: newStatus,
+      title: title,
+      updated_at: moment.utc().format('YYYY-MM-DD HH:mm:SS Z'),
+      type: constants.EDIT
     }
   }
 }
@@ -77,7 +92,7 @@ export default function(state = initialState, action = {}) {
         error: action.error
       }
 		case constants.REMOVE_REQUEST:
-			var index = state.requests.findIndex( rqst => rqst.id === +action.id);
+			var index = state.requests.findIndex( rqst => rqst.id === +action.id)
 			return {
         loading: false,
         requests: [
@@ -90,7 +105,20 @@ export default function(state = initialState, action = {}) {
         loading: false,
         requests: state.requests.map( st => {
           if (+st.id !== +action.id) return st;
-          return { ...st, status: action.status, updated_at: action.updated_at };
+          return { ...st, status: action.status, updated_at: action.updated_at }
+        })
+      }
+    case constants.EDIT:
+      return {
+        loading: false,
+        requests: state.requests.map( st => {
+          if (+st.id !== +action.id) return st;
+          return {
+            ...st,
+            status: action.status,
+            updated_at: action.updated_at,
+            title: action.title
+          }
         })
       }
     default:

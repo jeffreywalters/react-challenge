@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import { Link } from 'react-router'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
 
 class RequestTable extends React.Component {
@@ -27,34 +28,46 @@ class RequestTable extends React.Component {
     const requests_sorted = this.props.requests.sort(this._compareDates)
 
     return (
-      <table className='table table-condensed'>
-        <thead>
-          <tr>
-            <th>Title1</th>
-            <th>Status</th>
-            <th>Updated</th>
-            <th>Created</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {requests_sorted.map( (request) => {
-            return (
-              <tr key={request.id} data-requestkey={request.id} className={this._getRowColor(request.status)}>
-                <td>{request.title}</td>
-                <td>
-                  <OverlayTrigger ref='trigger' trigger='click' rootClose placement='right' overlay={this._getPopover(request.id, request.status)}>
-                    <a href='javascript:void(0)'>{request.status}</a>
-                  </OverlayTrigger>
-                </td>
-                <td>{this._formatDate(request.updated_at)}</td>
-                <td>{this._formatDate(request.created_at)}</td>
-                <td><a href='javascript:void(0)' onClick={this._handleDeleteClick}>Delete</a></td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+      <div>
+        <table className='table table-condensed'>
+          <thead>
+            <tr>
+              <th>Title1</th>
+              <th>Status</th>
+              <th>Updated</th>
+              <th>Created</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {requests_sorted.map( (request) => {
+              return (
+                <tr key={request.id} data-requestkey={request.id} className={this._getRowColor(request.status)}>
+                  <td>{request.title}</td>
+                  <td>
+                    <OverlayTrigger ref='trigger' trigger='click' rootClose placement='right' overlay={this._getPopover(request.id, request.status)}>
+                      <a href='javascript:void(0)'>{request.status}</a>
+                    </OverlayTrigger>
+                  </td>
+                  <td>{this._formatDate(request.updated_at)}</td>
+                  <td>{this._formatDate(request.created_at)}</td>
+                  <td>
+                    <Link to={`/edit/${request.id}`} className='btn btn-xs btn-primary'>Edit</Link>
+                    {' '}
+                    <a
+                      href='javascript:void(0)'
+                      onClick={this._handleDeleteClick}
+                      className='btn btn-xs btn-danger'
+                    >
+                      Delete
+                    </a>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     )
   }
 
@@ -107,7 +120,6 @@ class RequestTable extends React.Component {
   _handleDeleteClick = (e) => {
     const anchor = e.target
     const tr = anchor.parentNode.parentNode
-    console.info(e.target)
     let id = tr.getAttribute('data-requestkey')
     console.log('delete ID:', id)
     this.props.deleteRequest(id)

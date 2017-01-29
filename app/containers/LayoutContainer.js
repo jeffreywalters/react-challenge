@@ -1,10 +1,16 @@
 import React from 'react'
 
 const Layout = (props) => (
-  <div className='wrapper'>
-    <header>Header</header>
-    {props.children}
-    <footer>Footer</footer>
+  <div>
+    <header className='container' style={{backgroundColor: '#eee'}}>
+      <div className="page-header">
+        <h2>React Challenge <small>Jeff Walters</small></h2>
+      </div>
+    </header>
+    <div className='container' style={{backgroundColor: '#F9F9F9'}}>
+      {props.children} 
+    </div>
+    <footer className='container'>Footer</footer>
   </div>
 )
 Layout.propTypes = {

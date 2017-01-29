@@ -15,6 +15,7 @@ module.exports = {
   },
   output: {
     path: PATHS.build,
+    publicPath: '/assets/',
     filename: '[name].js'
   },
   plugins: [
@@ -22,22 +23,35 @@ module.exports = {
       title: 'React Challenge'
     })
   ],
+  devtool: 'eval-source-map',
   module: {
     preloaders: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: "eslint-loader"
+        loader: 'eslint-loader'
       }
     ],
     loaders: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        //query: {
-        //    presets: ['react', 'es2015', 'stage-2']
-        //}
+        loader: 'babel-loader'
+        // ,query: {
+        //   presets: ['react', 'es2015', 'stage-2']
+        // }
+      },
+      {
+        test: /\.png$/,
+        loader: 'url'
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
+      },
+      {
+        test: /\.(ttf|svg|woff)$/,
+        loader: 'file-loader?hash=sha512&digest=hex&name=[hash].[ext]'
       }
     ]
   },
@@ -48,8 +62,8 @@ module.exports = {
       path.resolve(__dirname, 'node_modules')
     ],
     modules: [
-      path.resolve(__dirname, "app"),
-      "node_modules"
+      path.resolve(__dirname, 'app'),
+      'node_modules'
     ],
     extensions: ['', '.js', '.jsx', '.json']
   },

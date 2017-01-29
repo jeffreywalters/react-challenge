@@ -7,21 +7,15 @@ import { actions as requestActions } from './redux/modules/requests.js'
 import LayoutContainer from './containers/LayoutContainer'
 import DetailsContainer from './containers/DetailsContainer'
 import RequestsContainer from './containers/RequestsContainer'
+import RequestForm from './components/RequestForm'
 import createStore from './redux/createStore'
 
-const initialState = {
-  loading: false,
-  requests: [{'id': 1, 'title': 'Request from Nancy', 'updated_at': '2015-08-15 12:27:01 -0600', 'created_at': '2015-08-12 08:27:01 -0600', 'status': 'Denied'}]
-}
-
-const reduxStore = createStore(initialState)
-
+const reduxStore = createStore({})
 
 const hooks = {
-  defer: ({ dispatch }) => dispatch(requestActions.fetchRequests())
+  defer: ({ dispatch }) => dispatch(requestActions.fetchRequests(dispatch, reduxStore.getState))
 }
 const hookedRequestsPage = provideHooks(hooks)(RequestsContainer)
-
 
 const Page2 = () => (
   <h1>Here is page 2</h1>
@@ -32,14 +26,13 @@ const routes = (
     <IndexRoute component={hookedRequestsPage} />
     <Route path='/page2' component={Page2} />
     <Route path='/details/:id' component={DetailsContainer} />
+    <route path='/edit/:id' component={RequestForm} />
   </Route>
 )
-
 
 const { dispatch } = reduxStore
 // Listen for route changes on the browser history instance:
 browserHistory.listen(location => {
-  console.log('location', location)
   // Match routes based on location object:
   match({ routes, location }, (error, redirectLocation, renderProps) => {
     // Get array of route handler components:
@@ -72,13 +65,11 @@ browserHistory.listen(location => {
 // kick off first fetch
 browserHistory.push('/')
 
-
 const App = () => (
   <Provider store={reduxStore}>
     <Router history={browserHistory} routes={routes} />
   </Provider>
 )
-
 
 const render = () => {
   ReactDOM.render(<App />, document.getElementById('container'))

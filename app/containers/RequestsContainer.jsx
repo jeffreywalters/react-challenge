@@ -8,7 +8,6 @@ class RequestsContainer extends React.Component {
 
   static propTypes = {
     requests: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    status: React.PropTypes.string,
     deleteRequest: React.PropTypes.func,
     setStatus: React.PropTypes.func
   }
@@ -58,8 +57,7 @@ class RequestsContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-     requests: state.requests,
-     status: state.statusFilter
+     requests: state.requests.requests
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
