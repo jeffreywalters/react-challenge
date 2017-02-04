@@ -52,6 +52,10 @@ module.exports = {
       {
         test: /\.(ttf|svg|woff)$/,
         loader: 'file-loader?hash=sha512&digest=hex&name=[hash].[ext]'
+      },
+      {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'sass']
       }
     ]
   },

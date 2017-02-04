@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import Immutable from 'immutable'
 import moment from 'moment'
 
 const delay = async (ms) => {
@@ -20,15 +21,14 @@ export const constants = {
 export const actions = {
   fetchRequests() {
     return async (dispatch, getState) => {
-      const requests = getState().requests.requests
-      if (requests.length){
-        dispatch({ type: constants.FETCH_SUCCESS, requests })
+      const requests = getState().requests.get('requests')
+      if (requests.size){
+        dispatch({ type: constants.FETCH_SUCCESS, requests: requests.toJS() })
         return;
       }
       try {
         dispatch({ type: constants.FETCH })
         console.log('start delay')
-        console.info(delay);
         const nothing = await delay(1000)
         console.log('nothing', nothing)
         const response = await fetch('/app/requests.json')
@@ -65,62 +65,100 @@ export const actions = {
   }
 }
 
-const initialState = {
+const initialState = Immutable.fromJS({
   loading: false,
   requests: []
-}
+})
 
 // My requests Reducer - rootReducer
 export default function(state = initialState, action = {}) {
   switch (action.type) {
     case constants.FETCH:
-      return {
-        ...state,
-        loading: true,
-        error: undefined
-      }
+      // return {
+      //   ...state,
+      //   loading: true,
+      //   error: undefined
+      // }
+      return state.set('loading', true).set('error', undefined)
     case constants.FETCH_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        requests: action.requests || []
-      }
+      // return {
+      //   ...state,
+      //   loading: false,
+      //   requests: action.requests || []
+      // }
+      return state.set('loading', false).set('requests', Immutable.fromJS(action.requests))
     case constants.FETCH_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.error
-      }
+      // return {
+      //   ...state,
+      //   loading: false,
+      //   error: action.error
+      // }
+      return state.set('loading', false).set('error', action.error)
 		case constants.REMOVE_REQUEST:
-			var index = state.requests.findIndex( rqst => rqst.id === +action.id)
-			return {
-        loading: false,
-        requests: [
-          ...state.requests.slice(0, index),
-          ...state.requests.slice(index + 1)
-        ]
-      }
+			//const index = state.get('requests').findIndex( rqst => rqst.get("id") === +action.id)
+			// return {
+      //   loading: false,
+      //   requests: [
+      //     ...state.requests.slice(0, index),
+      //     ...state.requests.slice(index + 1)
+      //   ]
+      // }
+      return state
+        .set('loading', false)
+        //.deleteIn(['requests', index])
+        .updateIn(['requests'],
+          requests => requests.filter(
+            rqst => rqst.get('id') !== +action.id
+          )
+        )
 		case constants.CHANGE_STATUS:
-			return {
-        loading: false,
-        requests: state.requests.map( st => {
-          if (+st.id !== +action.id) return st;
-          return { ...st, status: action.status, updated_at: action.updated_at }
+			// return {
+      //   loading: false,
+      //   requests: state.requests.map( st => {
+      //     if (+st.id !== +action.id) return st;
+      //     return {
+            //   ...st,
+            //   status: action.status,
+            //   updated_at: action.updated_at
+            // }
+      //   })
+      // }
+      return state
+        .set('loading', false)
+        .updateIn(['requests'], requests => {
+          return requests.map(rqst => {
+            return (rqst.get('id') === +action.id)
+              ? rqst
+                .set('status', action.status)
+                .set('updated_at', action.updated_at)
+              : rqst
+          })
         })
-      }
     case constants.EDIT:
-      return {
-        loading: false,
-        requests: state.requests.map( st => {
-          if (+st.id !== +action.id) return st;
-          return {
-            ...st,
-            status: action.status,
-            updated_at: action.updated_at,
-            title: action.title
-          }
+      // return {
+      //   loading: false,
+      //   requests: state.requests.map( st => {
+      //     if (+st.id !== +action.id) return st;
+      //     return {
+      //       ...st,
+      //       status: action.status,
+      //       updated_at: action.updated_at,
+      //       title: action.title
+      //     }
+      //   })
+      // }
+      return state
+        .set('loading', false)
+        .updateIn(['requests'], requests => {
+          return requests.map(rqst => {
+            return (rqst.get('id') === +action.id)
+              ? rqst.set('status', action.status)
+                .set('status', action.status)
+                .set('updated_at', action.updated_at)
+                .set('title', action.title)
+              : rqst
+          })
         })
-      }
     default:
       return state
   }

@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router'
 
 class RequestFilter extends React.Component {
-
   static propTypes = {
     setFilter: React.PropTypes.func
   }
@@ -39,9 +38,7 @@ class RequestFilter extends React.Component {
         &nbsp;&nbsp;&nbsp;
         <Link to='/page2'>Go to Page 2</Link>
         &nbsp;&nbsp;&nbsp;
-        <Link to='/details/5'>Go to details #5</Link>
-        &nbsp;&nbsp;&nbsp;
-        <Link to='/edit/5'>Go to edit #5</Link>
+        <Link to='/details/5'>Go to details</Link>
       </div>
     )
   }

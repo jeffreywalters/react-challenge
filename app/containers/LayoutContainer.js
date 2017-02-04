@@ -10,7 +10,9 @@ const Layout = (props) => (
     <div className='container' style={{backgroundColor: '#F9F9F9'}}>
       {props.children} 
     </div>
-    <footer className='container'>Footer</footer>
+    <footer className='container' style={{ backgroundColor: '#eee', padding: '20px' }}>
+      https://github.com/jeffreywalters/react-challenge
+    </footer>
   </div>
 )
 Layout.propTypes = {

@@ -10,7 +10,6 @@ class RequestForm extends React.Component {
     this.onFormSubmit = this.onFormSubmit.bind(this)
   }
   static propTypes = {
-    requests: React.PropTypes.arrayOf(React.PropTypes.object),
     params: React.PropTypes.object,
     initialValues: React.PropTypes.object
   }
@@ -24,10 +23,8 @@ class RequestForm extends React.Component {
   }
 
   render() {
-    const {requests, params: { id: r_id }, handleSubmit, pristine, reset, submitting } = this.props
-    // const index = requests.findIndex( rqst => +rqst.id === +r_id);
-    // const rqst = requests[index]
-    // console.log(rqst)
+    const { params: { id: r_id }, handleSubmit, pristine, reset, submitting } = this.props
+
     return (
       <form
         onSubmit={handleSubmit(this.onFormSubmit)}
@@ -140,11 +137,9 @@ class RequestForm extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   console.log('ownProps', ownProps)
-  const index = state.requests.requests.findIndex( rqst => +rqst.id === +ownProps.params.id);
-  const rqst = state.requests.requests[index]
+  const rqst = state.requests.get('requests').find( rqst => rqst.get('id') === +ownProps.params.id)
   return {
-    requests: state.requests.requests,
-    initialValues: {...rqst}
+    initialValues: rqst.toJS()
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {

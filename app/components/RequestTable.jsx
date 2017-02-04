@@ -4,7 +4,6 @@ import { Link } from 'react-router'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
 
 class RequestTable extends React.Component {
-
   static propTypes = {
     requests: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     deleteRequest: React.PropTypes.func,
@@ -12,23 +11,29 @@ class RequestTable extends React.Component {
     setStatus: React.PropTypes.func
   }
 
-  componentDidMount () {
-
-  }
-
   // use for date sort
   _compareDates(a, b) {
-    if (a.updated_at > b.updated_at) return -1
-    if (a.updated_at < b.updated_at) return 1
+    console.log(a.get('updated_at'))
+    if (a.get('updated_at') > b.get('updated_at')) return -1
+    if (a.get('updated_at') < b.get('updated_at')) return 1
     return 0
   }
 
   render(){
-    // sort dates
+    // sort by dates
     const requests_sorted = this.props.requests.sort(this._compareDates)
 
     return (
-      <div>
+      <div className="panel panel-primary">
+        <div className="panel-heading">
+          All Requests
+          <div style={{ float: 'right' }}>
+            <a className='btn btn-info btn-xs'>
+              <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>{' '}Add Request
+            </a>
+          </div>
+        </div>
+
         <table className='table table-condensed'>
           <thead>
             <tr>
@@ -40,19 +45,33 @@ class RequestTable extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {requests_sorted.map( (request) => {
-              return (
-                <tr key={request.id} data-requestkey={request.id} className={this._getRowColor(request.status)}>
-                  <td>{request.title}</td>
+            {requests_sorted.map( (request) => (
+                <tr
+                  key={request.get('id')}
+                  data-requestkey={request.get('id')}
+                  className={this._getRowColor(request.get("status"))}
+                >
+                  <td>{request.get('title')}</td>
                   <td>
-                    <OverlayTrigger ref='trigger' trigger='click' rootClose placement='right' overlay={this._getPopover(request.id, request.status)}>
-                      <a href='javascript:void(0)'>{request.status}</a>
+                    <OverlayTrigger
+                      ref='trigger'
+                      trigger='click'
+                      rootClose
+                      placement='right'
+                      overlay={this._getPopover(request.get('id'), request.get('status'))
+                    }>
+                      <a href='javascript:void(0)'>{request.get('status')}</a>
                     </OverlayTrigger>
                   </td>
-                  <td>{this._formatDate(request.updated_at)}</td>
-                  <td>{this._formatDate(request.created_at)}</td>
+                  <td>{this._formatDate(request.get('updated_at'))}</td>
+                  <td>{this._formatDate(request.get('created_at'))}</td>
                   <td>
-                    <Link to={`/edit/${request.id}`} className='btn btn-xs btn-primary'>Edit</Link>
+                    <Link
+                      to={`/edit/${request.get('id')}`}
+                      className='btn btn-xs btn-primary'
+                    >
+                      Edit
+                    </Link>
                     {' '}
                     <a
                       href='javascript:void(0)'
@@ -64,7 +83,7 @@ class RequestTable extends React.Component {
                   </td>
                 </tr>
               )
-            })}
+            )}
           </tbody>
         </table>
       </div>
