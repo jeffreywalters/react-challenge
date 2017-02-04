@@ -1,6 +1,6 @@
 # react-challenge
 
-An example react application async react-router routes, async redux reducers, async data fetching.
+An example react application with react-router routes, async redux reducers, async data fetching, redux-form with validation, and more.
 
 #### Motivation
 I originally started this application from a job application challenge. (I got the job) I've since updated it when I've woanted to try something new or something has inspired me.
