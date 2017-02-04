@@ -47,13 +47,14 @@ class RequestForm extends React.Component {
             />
           </div>
         </div>
-            <Field
-              name='title'
-              id='title'
-              type='text'
-              className='form-control'
-              component={renderField}
-            />
+        <Field
+          name='title'
+          id='title'
+          type='text'
+          label='Title'
+          className='form-control'
+          component={renderField}
+        />
         <div className='form-group'>
           <label htmlFor="updated_at" className="col-sm-2 control-label">Updated At</label>
           <div className="col-sm-10">
@@ -111,7 +112,8 @@ class RequestForm extends React.Component {
             <button
               type="button"
               className='btn btn-warn'
-              disabled={pristine || submitting} onClick={reset}
+              disabled={pristine || submitting}
+              onClick={reset}
             >
               <span className="glyphicon glyphicon-repeat" aria-hidden="true"></span>
               {' '}
@@ -130,20 +132,22 @@ class RequestForm extends React.Component {
   }
 }
 
-const renderField = ({ input, type, meta: { touched, error, warning }, ...rest }) => (
-  <div className={`form-group ${touched && error ? 'has-error' : ''}`}>
-    <label htmlFor="title" className="col-sm-2 control-label">Title</label>
+const renderField = ({ input, label, type, meta: { touched, error, warning }, ...rest }) => (
+  <div className={`form-group ${touched && error ? 'has-error has-feedback' : ''}`}>
+    <label htmlFor="title" className="col-sm-2 control-label">{label}</label>
     <div className="col-sm-10">
       <input
         {...input} {...rest}
       />
-      {touched && (error &&
-      <div className="alert alert-danger" style={{ padding: 2, marginBottom: 0 }} role="alert">
-      &nbsp;
-      <span className="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-      {' '}
-      {error}
-        </div>)}
+      {touched && (error && [
+      <span key={0} className="glyphicon glyphicon-remove form-control-feedback"></span>,
+      <div key={1} className='text-danger bg-warning' style={{ padding: 2, marginBottom: 0 }}>
+        &nbsp;
+        <span className="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+        {' '}
+        {error}
+      </div>
+      ])}
     </div>
   </div>
 )
@@ -158,7 +162,6 @@ const validate = (values) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('ownProps', ownProps)
   const rqst = state.requests.get('requests').find( rqst => rqst.get('id') === +ownProps.params.id)
   return {
     initialValues: rqst.toJS()
