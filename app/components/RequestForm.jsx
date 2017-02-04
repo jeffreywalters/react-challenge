@@ -40,25 +40,20 @@ class RequestForm extends React.Component {
             <Field
               name='id'
               id='id'
-              component="input"
               className='form-control'
               type='text'
               disabled
+              component='input'
             />
           </div>
         </div>
-        <div className='form-group'>
-          <label htmlFor="title" className="col-sm-2 control-label">Title</label>
-          <div className="col-sm-10">
             <Field
               name='title'
               id='title'
-              component="input"
-              className='form-control'
               type='text'
+              className='form-control'
+              component={renderField}
             />
-          </div>
-        </div>
         <div className='form-group'>
           <label htmlFor="updated_at" className="col-sm-2 control-label">Updated At</label>
           <div className="col-sm-10">
@@ -135,6 +130,33 @@ class RequestForm extends React.Component {
   }
 }
 
+const renderField = ({ input, type, meta: { touched, error, warning }, ...rest }) => (
+  <div className={`form-group ${touched && error ? 'has-error' : ''}`}>
+    <label htmlFor="title" className="col-sm-2 control-label">Title</label>
+    <div className="col-sm-10">
+      <input
+        {...input} {...rest}
+      />
+      {touched && (error &&
+      <div className="alert alert-danger" style={{ padding: 2, marginBottom: 0 }} role="alert">
+      &nbsp;
+      <span className="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+      {' '}
+      {error}
+        </div>)}
+    </div>
+  </div>
+)
+
+const validate = (values) => {
+  const errors = {}
+
+  if (! values.title) {
+    errors.title = 'Enter a Title'
+  }
+  return errors
+}
+
 const mapStateToProps = (state, ownProps) => {
   console.log('ownProps', ownProps)
   const rqst = state.requests.get('requests').find( rqst => rqst.get('id') === +ownProps.params.id)
@@ -151,7 +173,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const RequestFormWithReduxform = reduxForm({
-  form: 'requestForm'
+  form: 'requestForm',
+  validate
 })(RequestForm)
 
 const RequestFormWithRouter = withRouter(RequestFormWithReduxform)

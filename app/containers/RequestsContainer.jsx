@@ -59,6 +59,7 @@ class RequestsContainer extends React.Component {
             requests={requests_filtered}
             deleteRequest={this.deleteRequest}
             setStatus={this.setStatus}
+            filter={this.state.filter}
           />
         }
       </div>

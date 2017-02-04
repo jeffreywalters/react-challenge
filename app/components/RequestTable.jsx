@@ -5,15 +5,15 @@ import { OverlayTrigger, Popover } from 'react-bootstrap'
 
 class RequestTable extends React.Component {
   static propTypes = {
-    requests: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    requests: React.PropTypes.object.isRequired,
     deleteRequest: React.PropTypes.func,
     addRequest: React.PropTypes.func,
-    setStatus: React.PropTypes.func
+    setStatus: React.PropTypes.func,
+    filter: React.PropTypes.string
   }
 
   // use for date sort
   _compareDates(a, b) {
-    console.log(a.get('updated_at'))
     if (a.get('updated_at') > b.get('updated_at')) return -1
     if (a.get('updated_at') < b.get('updated_at')) return 1
     return 0
@@ -26,7 +26,7 @@ class RequestTable extends React.Component {
     return (
       <div className="panel panel-primary">
         <div className="panel-heading">
-          All Requests
+          Requests ({this.props.filter})
           <div style={{ float: 'right' }}>
             <a className='btn btn-info btn-xs'>
               <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>{' '}Add Request
@@ -41,7 +41,7 @@ class RequestTable extends React.Component {
               <th>Status</th>
               <th>Updated</th>
               <th>Created</th>
-              <th>Delete</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
