@@ -1,4 +1,4 @@
-# react-challenge
+# React-Challenge
 
 An example react application with react-router routes, async redux reducers, async data fetching, redux-form with validation, and more.
 
