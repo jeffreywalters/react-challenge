@@ -15,7 +15,8 @@ export const constants = {
   FETCH_FAILURE: 'Requests/FETCH_FAILURE',
   REMOVE_REQUEST: 'Requests/REMOVE_REQUEST',
   CHANGE_STATUS: 'Requests/CHANGE_STATUS',
-  EDIT: 'Requests/EDIT'
+  EDIT: 'Requests/EDIT',
+  ADD: 'Requests/ADD'
 }
 
 export const actions = {
@@ -54,13 +55,24 @@ export const actions = {
       type: constants.CHANGE_STATUS
     }
   },
-  editRequest(id, newStatus, title){
+  editRequest({id, status, title}) {
     return {
       id: id,
-      status: newStatus,
+      status: status,
       title: title,
       updated_at: moment.utc().format('YYYY-MM-DD HH:mm:SS Z'),
       type: constants.EDIT
+    }
+  },
+  addRequest({status, title}) {
+    console.log('called addRequest', title)
+    return {
+      id: new Date().getTime(),
+      status: status,
+      title: title,
+      updated_at: moment.utc().format('YYYY-MM-DD HH:mm:SS Z'),
+      created_at: moment.utc().format('YYYY-MM-DD HH:mm:SS Z'),
+      type: constants.ADD
     }
   }
 }
@@ -158,6 +170,21 @@ export default function(state = initialState, action = {}) {
                 .set('title', action.title)
               : rqst
           })
+        })
+    case constants.ADD:
+      return state
+        .set('loading', false)
+        .updateIn(['requests'], requests => {
+
+          console.log('called addRequest in reducer', action.title)
+          return requests.push(
+            Immutable.Map()
+              .set('id', action.id)
+              .set('status', action.status)
+              .set('updated_at', action.updated_at)
+              .set('created_at', action.created_at)
+              .set('title', action.title)
+          )
         })
     default:
       return state

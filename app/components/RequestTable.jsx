@@ -28,16 +28,16 @@ class RequestTable extends React.Component {
         <div className="panel-heading">
           Requests ({this.props.filter})
           <div style={{ float: 'right' }}>
-            <a className='btn btn-info btn-xs'>
+            <Link to='add' className='btn btn-info btn-xs'>
               <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>{' '}Add Request
-            </a>
+            </Link>
           </div>
         </div>
 
         <table className='table table-condensed'>
           <thead>
             <tr>
-              <th>Title1</th>
+              <th>Title</th>
               <th>Status</th>
               <th>Updated</th>
               <th>Created</th>

@@ -7,10 +7,12 @@ import { actions as requestActions } from './redux/modules/requests.js'
 import LayoutContainer from './containers/LayoutContainer'
 import DetailsContainer from './containers/DetailsContainer'
 import RequestsContainer from './containers/RequestsContainer'
-import RequestForm from './components/RequestForm'
+import EditRequestContainer from './containers/EditRequestContainer'
+import AddRequestContainer from 'containers/AddRequestContainer'
 import createStore from './redux/createStore'
 
 const reduxStore = createStore({})
+const { dispatch } = reduxStore
 
 const hooks = {
   defer: ({ dispatch }) => dispatch(requestActions.fetchRequests(dispatch, reduxStore.getState))
@@ -26,15 +28,16 @@ const routes = (
     <IndexRoute component={hookedRequestsPage} />
     <Route path='/page2' component={Page2} />
     <Route path='/details/:id' component={DetailsContainer} />
-    <route path='/edit/:id' component={RequestForm} />
+    <route path='/edit/:id' component={EditRequestContainer} />
+    <route path='/add' component={AddRequestContainer} />
   </Route>
 )
 
-const { dispatch } = reduxStore
 // Listen for route changes on the browser history instance:
 browserHistory.listen(location => {
   // Match routes based on location object:
   match({ routes, location }, (error, redirectLocation, renderProps) => {
+    if (error) console.log(error)
     // Get array of route handler components:
     const { components } = renderProps
 

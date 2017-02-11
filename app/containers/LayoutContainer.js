@@ -8,7 +8,7 @@ const Layout = (props) => (
       </div>
     </header>
     <div className='container' style={{backgroundColor: '#F9F9F9'}}>
-      {props.children} 
+      {props.children}
     </div>
     <footer className='container' style={{ backgroundColor: '#eee', padding: '20px' }}>
       https://github.com/jeffreywalters/react-challenge
