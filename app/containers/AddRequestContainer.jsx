@@ -12,7 +12,8 @@ class AddRequestContainer extends React.Component {
   }
   static propTypes = {
     params: React.PropTypes.object,
-    addRequest: React.PropTypes.func.isRequired
+    addRequest: React.PropTypes.func.isRequired,
+    initialValues: React.PropTypes.object
   }
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -24,6 +25,7 @@ class AddRequestContainer extends React.Component {
   }
 
   render() {
+    const { initialValues } = this.props
     return (
       <div>
         <h3>
@@ -31,6 +33,7 @@ class AddRequestContainer extends React.Component {
         </h3>
         <RequestFormComponent
           handleRequestSubmit={this.onFormSubmit}
+          initialValues={initialValues}
         />
       </div>
     )
@@ -38,7 +41,9 @@ class AddRequestContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {}
+  return {
+    initialValues: {status: 'Pending'}
+  }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {

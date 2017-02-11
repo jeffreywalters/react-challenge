@@ -25,7 +25,7 @@ class EditRequestContainer extends React.Component {
   }
 
   render() {
-    const { params: { id: r_id } } = this.props
+    const { params: { id: r_id }, initialValues } = this.props
 
     return (
       <div>
@@ -34,6 +34,7 @@ class EditRequestContainer extends React.Component {
         </h3>
         <RequestFormComponent
           handleRequestSubmit={this.onFormSubmit}
+          initialValues={initialValues}
         />
       </div>
     )

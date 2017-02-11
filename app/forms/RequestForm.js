@@ -128,7 +128,7 @@ export default (formName) => {
     label: React.PropTypes.string,
     type: React.PropTypes.string,
     children: React.PropTypes.Node,
-    meta: React.propTypes.object
+    meta: React.PropTypes.object
   }
 
   const validate = (values) => {
