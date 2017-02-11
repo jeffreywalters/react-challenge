@@ -21,7 +21,7 @@ class RequestTable extends React.Component {
 
   render(){
     // sort by dates
-    const requests_sorted = this.props.requests.sort(this._compareDates)
+    const requestsSorted = this.props.requests.sort(this._compareDates)
 
     return (
       <div className="panel panel-primary">
@@ -45,43 +45,43 @@ class RequestTable extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {requests_sorted.map( (request) => (
-                <tr
-                  key={request.get('id')}
-                  data-requestkey={request.get('id')}
-                  className={this._getRowColor(request.get("status"))}
-                >
-                  <td>{request.get('title')}</td>
-                  <td>
-                    <OverlayTrigger
-                      ref='trigger'
-                      trigger='click'
-                      rootClose
-                      placement='right'
-                      overlay={this._getPopover(request.get('id'), request.get('status'))
-                    }>
-                      <a href='javascript:void(0)'>{request.get('status')}</a>
-                    </OverlayTrigger>
-                  </td>
-                  <td>{this._formatDate(request.get('updated_at'))}</td>
-                  <td>{this._formatDate(request.get('created_at'))}</td>
-                  <td>
-                    <Link
-                      to={`/edit/${request.get('id')}`}
-                      className='btn btn-xs btn-primary'
-                    >
-                      Edit
-                    </Link>
-                    {' '}
-                    <a
-                      href='javascript:void(0)'
-                      onClick={this._handleDeleteClick}
-                      className='btn btn-xs btn-danger'
-                    >
-                      Delete
-                    </a>
-                  </td>
-                </tr>
+            {requestsSorted.map( (request) => (
+              <tr
+                key={request.get('id')}
+                data-requestkey={request.get('id')}
+                className={this._getRowColor(request.get('status'))}
+              >
+                <td>{request.get('title')}</td>
+                <td>
+                  <OverlayTrigger
+                    ref='trigger'
+                    trigger='click'
+                    rootClose
+                    placement='right'
+                    overlay={this._getPopover(request.get('id'), request.get('status'))
+                  }>
+                    <a href='javascript:void(0)'>{request.get('status')}</a>
+                  </OverlayTrigger>
+                </td>
+                <td>{this._formatDate(request.get('updated_at'))}</td>
+                <td>{this._formatDate(request.get('created_at'))}</td>
+                <td>
+                  <Link
+                    to={`/edit/${request.get('id')}`}
+                    className='btn btn-xs btn-primary'
+                  >
+                    Edit
+                  </Link>
+                  {' '}
+                  <a
+                    href='javascript:void(0)'
+                    onClick={this._handleDeleteClick}
+                    className='btn btn-xs btn-danger'
+                  >
+                    Delete
+                  </a>
+                </td>
+              </tr>
               )
             )}
           </tbody>
@@ -109,7 +109,7 @@ class RequestTable extends React.Component {
       'Pending',
       'Denied'
     ]
-    statuses = statuses.filter( stat => stat != status )
+    statuses = statuses.filter( stat => stat !== status )
     // console.log(status);
     return (
       <Popover id='popover-positioned-right'>
@@ -139,7 +139,7 @@ class RequestTable extends React.Component {
   _handleDeleteClick = (e) => {
     const anchor = e.target
     const tr = anchor.parentNode.parentNode
-    let id = tr.getAttribute('data-requestkey')
+    const id = tr.getAttribute('data-requestkey')
     console.log('delete ID:', id)
     this.props.deleteRequest(id)
   }

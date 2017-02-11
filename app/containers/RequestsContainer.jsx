@@ -45,8 +45,8 @@ class RequestsContainer extends React.Component {
   }
 
   render(){
-    const { requests, setStatus, loading } = this.props
-    const requests_filtered = this._getFilteredRequests(requests, this.state.filter)
+    const { requests, loading } = this.props
+    const requestsFiltered = this._getFilteredRequests(requests, this.state.filter)
     return (
       <div style={{ minHeight: 500 }}>
         <h1>Requests</h1>
@@ -56,7 +56,7 @@ class RequestsContainer extends React.Component {
         />
         {loading && <Loader size='lg' /> ||
           <RequestTable
-            requests={requests_filtered}
+            requests={requestsFiltered}
             deleteRequest={this.deleteRequest}
             setStatus={this.setStatus}
             filter={this.state.filter}
@@ -69,8 +69,8 @@ class RequestsContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-     requests: state.requests.get('requests'),
-     loading: state.requests.get('loading')
+    requests: state.requests.get('requests'),
+    loading: state.requests.get('loading')
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -79,7 +79,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(requestActions.deleteRequest(id))
     },
     setStatus(id, newStatus){
-      dispatch(requestActions.setStatus(id, newStatus));
+      dispatch(requestActions.setStatus(id, newStatus))
     }
   }
 }

@@ -5,7 +5,6 @@ import { Link } from 'react-router'
 export default (formName) => {
   class RequestForm extends React.Component {
     static propTypes = {
-      initialValues: React.PropTypes.object.isRequired,
       handleSubmit: React.PropTypes.func.isRequired,
       pristine: React.PropTypes.bool,
       reset: React.PropTypes.func,
@@ -78,7 +77,7 @@ export default (formName) => {
               >
                 <span className="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                 {' '}
-                Save New
+                Save
               </button>
               {' '}
               <button
@@ -116,7 +115,7 @@ export default (formName) => {
           <span key={0} className="glyphicon glyphicon-remove form-control-feedback"></span>,
           <div key={1} className='text-danger bg-warning' style={{ padding: 2, marginBottom: 0 }}>
             &nbsp;
-          <span className="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+            <span className="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
             {' '}
             {error}
           </div>
@@ -124,6 +123,13 @@ export default (formName) => {
       </div>
     </div>
   )
+  renderField.propTypes = {
+    input: React.PropTypes.object,
+    label: React.PropTypes.string,
+    type: React.PropTypes.string,
+    children: React.PropTypes.Node,
+    meta: React.propTypes.object
+  }
 
   const validate = (values) => {
     const errors = {}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter, Link } from 'react-router'
+import { withRouter } from 'react-router'
 import { actions as requestActions } from 'redux/modules/requests'
 import requestForm from 'forms/RequestForm'
 
@@ -13,7 +13,7 @@ class EditRequestContainer extends React.Component {
   }
   static propTypes = {
     params: React.PropTypes.object,
-    initialValues: React.PropTypes.object
+    editRequest: React.PropTypes.func.isRequired
   }
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -25,7 +25,7 @@ class EditRequestContainer extends React.Component {
   }
 
   render() {
-    const { params: { id: r_id }, handleSubmit, pristine, reset, submitting } = this.props
+    const { params: { id: r_id } } = this.props
 
     return (
       <div>
@@ -33,14 +33,12 @@ class EditRequestContainer extends React.Component {
           Edit Request Record ID #{r_id}
         </h3>
         <RequestFormComponent
-          initialValues={this.props.initialValues}
           handleRequestSubmit={this.onFormSubmit}
         />
       </div>
     )
   }
 }
-
 
 const mapStateToProps = (state, ownProps) => {
   const rqst = state.requests.get('requests').find( rqst => rqst.get('id') === +ownProps.params.id)

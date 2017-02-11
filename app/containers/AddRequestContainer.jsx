@@ -12,7 +12,7 @@ class AddRequestContainer extends React.Component {
   }
   static propTypes = {
     params: React.PropTypes.object,
-    initialValues: React.PropTypes.object
+    addRequest: React.PropTypes.func.isRequired
   }
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -24,15 +24,12 @@ class AddRequestContainer extends React.Component {
   }
 
   render() {
-    const { handleSubmit, pristine, reset, submitting } = this.props
-
     return (
       <div>
         <h3>
           Add New Request
         </h3>
         <RequestFormComponent
-          initialValues={this.props.initialValues}
           handleRequestSubmit={this.onFormSubmit}
         />
       </div>

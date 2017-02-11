@@ -4,8 +4,8 @@ import moment from 'moment'
 
 const delay = async (ms) => {
   // if i return the promise, then the await is optional
-  await new Promise((resolve) => setTimeout(resolve.bind(this,'hi there'), ms))
-  //await setTimeout(console.log.bind(this,'hi there'), ms)
+  await new Promise((resolve) => setTimeout(resolve.bind(this, 'hi there'), ms))
+  // await setTimeout(console.log.bind(this,'hi there'), ms)
   return 'here you go'
 }
 
@@ -25,7 +25,7 @@ export const actions = {
       const requests = getState().requests.get('requests')
       if (requests.size){
         dispatch({ type: constants.FETCH_SUCCESS, requests: requests.toJS() })
-        return;
+        return
       }
       try {
         dispatch({ type: constants.FETCH })
@@ -106,9 +106,9 @@ export default function(state = initialState, action = {}) {
       //   error: action.error
       // }
       return state.set('loading', false).set('error', action.error)
-		case constants.REMOVE_REQUEST:
-			//const index = state.get('requests').findIndex( rqst => rqst.get("id") === +action.id)
-			// return {
+    case constants.REMOVE_REQUEST:
+      // const index = state.get('requests').findIndex( rqst => rqst.get("id") === +action.id)
+      // return {
       //   loading: false,
       //   requests: [
       //     ...state.requests.slice(0, index),
@@ -117,14 +117,14 @@ export default function(state = initialState, action = {}) {
       // }
       return state
         .set('loading', false)
-        //.deleteIn(['requests', index])
+        // .deleteIn(['requests', index])
         .updateIn(['requests'],
           requests => requests.filter(
             rqst => rqst.get('id') !== +action.id
           )
         )
-		case constants.CHANGE_STATUS:
-			// return {
+    case constants.CHANGE_STATUS:
+      // return {
       //   loading: false,
       //   requests: state.requests.map( st => {
       //     if (+st.id !== +action.id) return st;
@@ -175,7 +175,6 @@ export default function(state = initialState, action = {}) {
       return state
         .set('loading', false)
         .updateIn(['requests'], requests => {
-
           console.log('called addRequest in reducer', action.title)
           return requests.push(
             Immutable.Map()

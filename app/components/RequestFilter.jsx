@@ -3,7 +3,8 @@ import { Link } from 'react-router'
 
 class RequestFilter extends React.Component {
   static propTypes = {
-    setFilter: React.PropTypes.func
+    setFilter: React.PropTypes.func,
+    status: React.PropTypes.string
   }
 
   _handleFilterChange = (e) => {
@@ -27,14 +28,14 @@ class RequestFilter extends React.Component {
     return (
       <div className='well'>
         Filter By Status:&nbsp;&nbsp;
-          <select
-            name='request_filter'
-            value={this.props.status}
-            onChange={this._handleFilterChange}
-            className='form-control'
-          >
-            {statusList.map((type, i) => <option key={i} value={type}>{type}</option>)}
-          </select>
+        <select
+          name='request_filter'
+          value={this.props.status}
+          onChange={this._handleFilterChange}
+          className='form-control'
+        >
+          {statusList.map((type, i) => <option key={i} value={type}>{type}</option>)}
+        </select>
         &nbsp;&nbsp;&nbsp;
         <Link to='/page2'>Go to Page 2</Link>
         &nbsp;&nbsp;&nbsp;
