@@ -37,8 +37,6 @@ class RequestFilter extends React.Component {
           {statusList.map((type, i) => <option key={i} value={type}>{type}</option>)}
         </select>
         &nbsp;&nbsp;&nbsp;
-        <Link to='/page2'>Go to Page 2</Link>
-        &nbsp;&nbsp;&nbsp;
         <Link to='/details/5'>Go to details</Link>
       </div>
     )

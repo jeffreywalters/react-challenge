@@ -19,14 +19,9 @@ const hooks = {
 }
 const hookedRequestsPage = provideHooks(hooks)(RequestsContainer)
 
-const Page2 = () => (
-  <h1>Here is page 2</h1>
-)
-
 const routes = (
   <Route path='/' component={LayoutContainer}>
     <IndexRoute component={hookedRequestsPage} />
-    <Route path='/page2' component={Page2} />
     <Route path='/details/:id' component={DetailsContainer} />
     <route path='/edit/:id' component={EditRequestContainer} />
     <route path='/add' component={AddRequestContainer} />

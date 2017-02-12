@@ -2,9 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { actions as requestActions } from 'redux/modules/requests'
-import requestForm from 'forms/RequestForm'
-
-const RequestFormComponent = requestForm('EditForm')
+import RequestForm from 'forms/RequestForm'
 
 class EditRequestContainer extends React.Component {
   constructor(props, context) {
@@ -13,7 +11,8 @@ class EditRequestContainer extends React.Component {
   }
   static propTypes = {
     params: React.PropTypes.object,
-    editRequest: React.PropTypes.func.isRequired
+    editRequest: React.PropTypes.func.isRequired,
+    initialValues: React.PropTypes.object
   }
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -25,14 +24,15 @@ class EditRequestContainer extends React.Component {
   }
 
   render() {
-    const { params: { id: r_id }, initialValues } = this.props
+    const { params: { id: rID }, initialValues } = this.props
 
     return (
       <div>
         <h3>
-          Edit Request Record ID #{r_id}
+          Edit Request Record ID #{rID}
         </h3>
-        <RequestFormComponent
+        <RequestForm
+          form='EditForm'
           handleRequestSubmit={this.onFormSubmit}
           initialValues={initialValues}
         />

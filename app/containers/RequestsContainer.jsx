@@ -1,4 +1,5 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import RequestFilter from '../components/RequestFilter'
 import RequestTable from '../components/RequestTable'
 import Loader from 'components/Loader/Loader'
@@ -73,15 +74,12 @@ const mapStateToProps = (state, ownProps) => {
     loading: state.requests.get('loading')
   }
 }
+
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    deleteRequest(id){
-      dispatch(requestActions.deleteRequest(id))
-    },
-    setStatus(id, newStatus){
-      dispatch(requestActions.setStatus(id, newStatus))
-    }
-  }
+  return bindActionCreators({
+    deleteRequest: (id) => requestActions.deleteRequest(id),
+    setStatus: (id, newStatus) => requestActions.setStatus(id, newStatus)
+  }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestsContainer)

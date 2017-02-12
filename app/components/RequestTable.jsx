@@ -110,7 +110,6 @@ class RequestTable extends React.Component {
       'Denied'
     ]
     statuses = statuses.filter( stat => stat !== status )
-    // console.log(status);
     return (
       <Popover id='popover-positioned-right'>
         {statuses.map((status, i) => (
@@ -137,6 +136,7 @@ class RequestTable extends React.Component {
   }
 
   _handleDeleteClick = (e) => {
+    if (!confirm('Are you sure you want to delete this request?')) return
     const anchor = e.target
     const tr = anchor.parentNode.parentNode
     const id = tr.getAttribute('data-requestkey')

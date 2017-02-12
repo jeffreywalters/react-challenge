@@ -1,9 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { actions as requestActions } from 'redux/modules/requests'
-import requestForm from 'forms/RequestForm'
-
-const RequestFormComponent = requestForm('AddForm')
+import RequestForm from 'forms/RequestForm'
 
 class AddRequestContainer extends React.Component {
   constructor(props, context) {
@@ -31,7 +29,8 @@ class AddRequestContainer extends React.Component {
         <h3>
           Add New Request
         </h3>
-        <RequestFormComponent
+        <RequestForm
+          form='AddForm'
           handleRequestSubmit={this.onFormSubmit}
           initialValues={initialValues}
         />
