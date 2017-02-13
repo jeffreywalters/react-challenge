@@ -6,8 +6,9 @@
   "scripts": {
     "test": "mocha --require test/helpers/setup.js",
     "start": "webpack-dev-server --inline --hot",
+    "clean": "rimraf build",
     "lint": "standard",
-    "build": "webpack -p",
+    "build": "npm run clean && webpack -p",
     "watch": "webpack --watch",
     "cover": "nyc --reporter=lcov --reporter=text --reporter=html --require --extention .jsx npm test"
   },
@@ -39,6 +40,7 @@
     "browser-sync": "^2.11.2",
     "browserify": "^12.0.1",
     "chai": "^3.5.0",
+    "copy-webpack-plugin": "^4.0.1",
     "core-decorators": "^0.15.0",
     "core-js": "^2.4.1",
     "css-loader": "^0.26.1",
@@ -68,6 +70,7 @@
     "redux-diff-logger": "0.0.9",
     "redux-logger": "^2.7",
     "redux-mock-store": "1.2",
+    "rimraf": "^2.5.4",
     "sass-loader": "^4.1.1",
     "standard": "^8.4.0",
     "style-loader": "^0.13.1",

@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack');
+const webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const PATHS = {
   app: path.join(__dirname, 'app'),
@@ -21,7 +22,7 @@ module.exports = {
   },
   output: {
     path: PATHS.build,
-    //publicPath: '/build/',
+    // publicPath: '/build/',
     filename: '[name].[chunkhash].js'
   },
   plugins: [
@@ -31,7 +32,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'React Challenge',
       template: 'app/index.html'
-    })
+    }),
+    new CopyWebpackPlugin([
+      { from: 'app/assets' }
+    ])
   ],
   devtool: 'eval-source-map',
   module: {
