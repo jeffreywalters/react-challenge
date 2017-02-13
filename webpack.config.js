@@ -1,10 +1,15 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack');
 
 const PATHS = {
   app: path.join(__dirname, 'app'),
   build: path.join(__dirname, 'build')
 }
+
+const VENDOR_LIBS = [
+
+]
 
 module.exports = {
   // Entry accepts a path or an object of entries.
@@ -12,27 +17,25 @@ module.exports = {
   // convenient with more complex configurations.
   entry: {
     app: PATHS.app
+    // ,vendor: VENDOR_LIBS
   },
   output: {
     path: PATHS.build,
-    publicPath: '/assets/',
-    filename: '[name].js'
+    //publicPath: '/build/',
+    filename: '[name].[chunkhash].js'
   },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['manifest']
+    }),
     new HtmlWebpackPlugin({
-      title: 'React Challenge'
+      title: 'React Challenge',
+      template: 'app/index.html'
     })
   ],
   devtool: 'eval-source-map',
   module: {
-    preloaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader'
-      }
-    ],
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -55,21 +58,20 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css', 'sass']
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   },
-
   resolve: {
-    root: [
-      path.resolve(__dirname, 'app'),
-      path.resolve(__dirname, 'node_modules')
-    ],
+    // resolver: [
+    //   path.resolve(__dirname, 'app'),
+    //   path.resolve(__dirname, 'node_modules')
+    // ],
     modules: [
       path.resolve(__dirname, 'app'),
       'node_modules'
     ],
-    extensions: ['', '.js', '.jsx', '.json']
+    extensions: ['.js', '.jsx', '.json']
   },
   stats: {
     color: true,

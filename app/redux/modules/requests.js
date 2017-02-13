@@ -32,7 +32,7 @@ export const actions = {
         console.log('start delay')
         const nothing = await delay(1000)
         console.log('nothing', nothing)
-        const response = await fetch('/app/requests.json')
+        const response = await fetch('requests.json')
         if (response.status >= 300) throw new Error(response.status)
         const requests = await response.json()
         dispatch(this.fetchSuccess(requests))

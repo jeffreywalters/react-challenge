@@ -8,17 +8,15 @@ class RequestForm extends React.Component {
     pristine: React.PropTypes.bool,
     reset: React.PropTypes.func,
     submitting: React.PropTypes.bool,
-    handleRequestSubmit: React.PropTypes.func.isRequired,
-    formName: React.PropTypes.string.isRequired
+    handleRequestSubmit: React.PropTypes.func.isRequired
   }
 
   render() {
-    const { handleSubmit, pristine, reset, submitting, handleRequestSubmit, formName } = this.props
+    const { handleSubmit, pristine, reset, submitting, handleRequestSubmit } = this.props
 
     return (
       <form
         onSubmit={handleSubmit(handleRequestSubmit)}
-        name={formName}
         className="form-horizontal"
       >
         <Field
@@ -127,7 +125,7 @@ renderField.propTypes = {
   input: React.PropTypes.object,
   label: React.PropTypes.string,
   type: React.PropTypes.string,
-  children: React.PropTypes.Node,
+  children: React.PropTypes.node,
   meta: React.PropTypes.object
 }
 
