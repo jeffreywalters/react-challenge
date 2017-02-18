@@ -35,7 +35,10 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: 'app/assets' }
-    ])
+    ]),
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+    })
   ],
   devtool: 'eval-source-map',
   module: {

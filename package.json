@@ -8,7 +8,7 @@
     "start": "webpack-dev-server --inline --hot",
     "clean": "rimraf build",
     "lint": "standard",
-    "build": "npm run clean && webpack -p",
+    "build": "NODE_ENV=production npm run clean && webpack -p",
     "watch": "webpack --watch",
     "cover": "nyc --reporter=lcov --reporter=text --reporter=html --require --extention .jsx npm test",
     "serve": "webpack-dev-server"
@@ -79,10 +79,12 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0",
     "webpack": "^2.2.1",
+    "webpack-dev-middleware": "^1.10.1",
     "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "express": "^4.14.1",
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.16",
