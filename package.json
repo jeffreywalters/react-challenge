@@ -10,7 +10,8 @@
     "lint": "standard",
     "build": "npm run clean && webpack -p",
     "watch": "webpack --watch",
-    "cover": "nyc --reporter=lcov --reporter=text --reporter=html --require --extention .jsx npm test"
+    "cover": "nyc --reporter=lcov --reporter=text --reporter=html --require --extention .jsx npm test",
+    "serve": "webpack-dev-server"
   },
   "author": "Jeff Walters",
   "license": "ISC",
@@ -77,7 +78,8 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",

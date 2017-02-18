@@ -34,7 +34,7 @@ class RequestTable extends React.Component {
           </div>
         </div>
 
-        <table className='table table-condensed'>
+        <table className='table table-condensed table-hover'>
           <thead>
             <tr>
               <th>Title</th>
@@ -54,7 +54,7 @@ class RequestTable extends React.Component {
                 <td>{request.get('title')}</td>
                 <td>
                   <OverlayTrigger
-                    ref='trigger'
+                    ref={`trigger${request.get('id')}`}
                     trigger='click'
                     rootClose
                     placement='right'
@@ -109,13 +109,14 @@ class RequestTable extends React.Component {
       'Pending',
       'Denied'
     ]
+    const me = this
     statuses = statuses.filter( stat => stat !== status )
     return (
-      <Popover id='popover-positioned-right'>
+      <Popover>
         {statuses.map((status, i) => (
           <div key={i}>
             <a
-              onClick={this._handleStatusClick}
+              onClick={(e) => { this._handleStatusClick(e); me.refs[`trigger${requestid}`].hide() }}
               data-id={requestid}
               data-status={status}
             >
