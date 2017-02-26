@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import { Link } from 'react-router'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover, Modal, Button } from 'react-bootstrap'
 
 class RequestTable extends React.Component {
   static propTypes = {
@@ -73,13 +73,9 @@ class RequestTable extends React.Component {
                     Edit
                   </Link>
                   {' '}
-                  <a
-                    href='javascript:void(0)'
-                    onClick={this._handleDeleteClick}
-                    className='btn btn-xs btn-danger'
-                  >
-                    Delete
-                  </a>
+                  <DeleteModal
+                    onDelete={() => this._handleDeleteClick(request.get('id'))}
+                  />
                 </td>
               </tr>
               )
@@ -136,15 +132,69 @@ class RequestTable extends React.Component {
     this.props.setStatus(id, newstatus)
   }
 
-  _handleDeleteClick = (e) => {
-    if (!confirm('Are you sure you want to delete this request?')) return
-    const anchor = e.target
-    const tr = anchor.parentNode.parentNode
-    const id = tr.getAttribute('data-requestkey')
-    console.log('delete ID:', id)
+  _handleDeleteClick = (id) => {
     this.props.deleteRequest(id)
   }
+}
 
+
+class DeleteModal extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { showModal: false }
+    this.open = this.open.bind(this)
+    this.open = this.open.bind(this)
+  }
+
+  static propTypes = {
+    onDelete: React.PropTypes.func
+  }
+
+  close() {
+    this.setState({ showModal: false })
+  }
+
+  open() {
+    this.setState({ showModal: true })
+  }
+
+  render() {
+    return (
+      <span>
+        <Button
+          bsStyle="danger"
+          bsSize="xsmall"
+          onClick={this.open}
+        >
+          Delete
+        </Button>
+
+        <Modal
+          show={this.state.showModal}
+          onHide={this.close}
+          bsSize="small"
+        >
+          <Modal.Header className="bg-primary" closeButton>
+            <Modal.Title>Confirm</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>Delete this Request?</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              onClick={this.close}
+              bsSize="small"
+            >Cancel</Button>
+            <Button
+              bsStyle="primary"
+              bsSize="small"
+              onClick={() => { this.props.onDelete(); this.close() }}
+            >Confirm</Button>
+          </Modal.Footer>
+        </Modal>
+      </span>
+    )
+  }
 }
 
 export default RequestTable
