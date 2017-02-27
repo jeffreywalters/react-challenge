@@ -32,10 +32,31 @@ export const actions = {
         console.log('start delay')
         const nothing = await delay(1000)
         console.log('nothing', nothing)
-        const response = await fetch('requests.json')
+        // const response = await fetch('requests.json')
+        const response = await fetch('/graphql', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify({
+            query: `
+              {
+                requests (sortBy: ID) {
+                  id
+                  status
+                  title
+                  createdAt
+                  updatedAt
+                }
+              }
+            `
+          })
+        })
         if (response.status >= 300) throw new Error(response.status)
         const requests = await response.json()
-        dispatch(this.fetchSuccess(requests))
+        console.log('requests', requests)
+        dispatch(this.fetchSuccess(requests.data.requests))
       } catch (error) {
         dispatch({ type: constants.FETCH_FAILURE, error })
       }
@@ -48,10 +69,12 @@ export const actions = {
     return { id: id, type: constants.REMOVE_REQUEST }
   },
   setStatus(id, newStatus){
+    console.log('newStatus', newStatus)
+    console.log(moment().format('x'))
     return {
       id: id,
       status: newStatus,
-      updated_at: moment.utc().format('YYYY-MM-DD HH:mm:SS Z'),
+      updatedAt: moment().format('x'),
       type: constants.CHANGE_STATUS
     }
   },
@@ -60,18 +83,18 @@ export const actions = {
       id: id,
       status: status,
       title: title,
-      updated_at: moment.utc().format('YYYY-MM-DD HH:mm:SS Z'),
+      updatedAt: moment().format('x'),
       type: constants.EDIT
     }
   },
   addRequest({status, title}) {
     console.log('called addRequest', title)
     return {
-      id: new Date().getTime(),
+      id: (new Date().getTime()).toString(),
       status: status,
       title: title,
-      updated_at: moment.utc().format('YYYY-MM-DD HH:mm:SS Z'),
-      created_at: moment.utc().format('YYYY-MM-DD HH:mm:SS Z'),
+      updatedAt: moment().format('x'),
+      createdAt: moment().format('x'),
       type: constants.ADD
     }
   }
@@ -98,7 +121,9 @@ export default function(state = initialState, action = {}) {
       //   loading: false,
       //   requests: action.requests || []
       // }
-      return state.set('loading', false).set('requests', Immutable.fromJS(action.requests))
+      return state
+        .set('loading', false)
+        .set('requests', Immutable.fromJS(action.requests))
     case constants.FETCH_FAILURE:
       // return {
       //   ...state,
@@ -120,7 +145,7 @@ export default function(state = initialState, action = {}) {
         // .deleteIn(['requests', index])
         .updateIn(['requests'],
           requests => requests.filter(
-            rqst => rqst.get('id') !== +action.id
+            rqst => rqst.get('id') !== action.id
           )
         )
     case constants.CHANGE_STATUS:
@@ -139,10 +164,10 @@ export default function(state = initialState, action = {}) {
         .set('loading', false)
         .updateIn(['requests'], requests => {
           return requests.map(rqst => {
-            return (rqst.get('id') === +action.id)
+            return (rqst.get('id') === action.id)
               ? rqst
                 .set('status', action.status)
-                .set('updated_at', action.updated_at)
+                .set('updatedAt', action.updatedAt)
               : rqst
           })
         })
@@ -163,10 +188,10 @@ export default function(state = initialState, action = {}) {
         .set('loading', false)
         .updateIn(['requests'], requests => {
           return requests.map(rqst => {
-            return (rqst.get('id') === +action.id)
+            return (rqst.get('id') === action.id)
               ? rqst.set('status', action.status)
                 .set('status', action.status)
-                .set('updated_at', action.updated_at)
+                .set('updatedAt', action.updatedAt)
                 .set('title', action.title)
               : rqst
           })
@@ -180,8 +205,8 @@ export default function(state = initialState, action = {}) {
             Immutable.Map()
               .set('id', action.id)
               .set('status', action.status)
-              .set('updated_at', action.updated_at)
-              .set('created_at', action.created_at)
+              .set('updatedAt', action.updatedAt)
+              .set('createdAt', action.createdAt)
               .set('title', action.title)
           )
         })

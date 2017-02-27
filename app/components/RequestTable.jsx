@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import moment from 'moment'
 import { Link } from 'react-router'
 import { OverlayTrigger, Popover, Modal, Button } from 'react-bootstrap'
@@ -14,8 +15,8 @@ class RequestTable extends React.Component {
 
   // use for date sort
   _compareDates(a, b) {
-    if (a.get('updated_at') > b.get('updated_at')) return -1
-    if (a.get('updated_at') < b.get('updated_at')) return 1
+    if (a.get('updatedAt') > b.get('updatedAt')) return -1
+    if (a.get('updatedAt') < b.get('updatedAt')) return 1
     return 0
   }
 
@@ -29,7 +30,8 @@ class RequestTable extends React.Component {
           Requests ({this.props.filter})
           <div style={{ float: 'right' }}>
             <Link to='add' className='btn btn-info btn-xs'>
-              <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>{' '}Add Request
+              <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              {' '}Add Request
             </Link>
           </div>
         </div>
@@ -63,8 +65,8 @@ class RequestTable extends React.Component {
                     <a href='javascript:void(0)'>{request.get('status')}</a>
                   </OverlayTrigger>
                 </td>
-                <td>{this._formatDate(request.get('updated_at'))}</td>
-                <td>{this._formatDate(request.get('created_at'))}</td>
+                <td>{this._formatDate(request.get('updatedAt'))}</td>
+                <td>{this._formatDate(request.get('createdAt'))}</td>
                 <td>
                   <Link
                     to={`/edit/${request.get('id')}`}
@@ -87,28 +89,25 @@ class RequestTable extends React.Component {
   }
 
   _getRowColor(status){
-    if (status === 'Approved'){ return 'success' }
-    if (status === 'Denied'){ return 'danger' }
+    if (status === 'APPROVED'){ return 'success' }
+    if (status === 'DENIED'){ return 'danger' }
     return ''
   }
 
   _formatDate(str) {
-    // let fixdate = str.substring(0,19) + str.substring(20);
-    // console.log(fixdate);
-    // return moment.utc(fixdate).format('YYYY-MM-DD');
-    return moment(str, 'YYYY-MM-DD HH:mm:SS Z').utc().format('YYYY-MM-DD')
+    return moment(+str).format('YYYY-MM-DD')
   }
 
   _getPopover(requestid, status){
     let statuses = [
-      'Approved',
-      'Pending',
-      'Denied'
+      'APPROVED',
+      'PENDING',
+      'DENIED'
     ]
     const me = this
     statuses = statuses.filter( stat => stat !== status )
     return (
-      <Popover>
+      <Popover id={`popover${requestid}`}>
         {statuses.map((status, i) => (
           <div key={i}>
             <a
@@ -143,7 +142,7 @@ class DeleteModal extends React.Component {
     super(props)
     this.state = { showModal: false }
     this.open = this.open.bind(this)
-    this.open = this.open.bind(this)
+    this.close = this.close.bind(this)
   }
 
   static propTypes = {
@@ -173,6 +172,7 @@ class DeleteModal extends React.Component {
           show={this.state.showModal}
           onHide={this.close}
           bsSize="small"
+          onEnter={() => ReactDOM.findDOMNode(this.confirm).focus()}
         >
           <Modal.Header className="bg-primary" closeButton>
             <Modal.Title>Confirm</Modal.Title>
@@ -189,6 +189,7 @@ class DeleteModal extends React.Component {
               bsStyle="primary"
               bsSize="small"
               onClick={() => { this.props.onDelete(); this.close() }}
+              ref={(button) => { this.confirm = button }}
             >Confirm</Button>
           </Modal.Footer>
         </Modal>

@@ -42,7 +42,7 @@ class EditRequestContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const rqst = state.requests.get('requests').find( rqst => rqst.get('id') === +ownProps.params.id)
+  const rqst = state.requests.get('requests').find( rqst => rqst.get('id') === ownProps.params.id)
   return {
     initialValues: rqst.toJS()
   }

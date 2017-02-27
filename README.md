@@ -9,8 +9,9 @@ I originally started this application for a job application challenge. (I got th
  - [React](https://github.com/facebook/react)
  - [Redux](https://github.com/reactjs/redux)
  - [React Router](https://github.com/reactjs/react-router) 3.0
- - [React Helmet](https://github.com/nfl/react-helmet) for meta tags by the NFL
  - [Redial](https://github.com/markdalgleish/redial) for data fetching by [@markdalgleish](https://twitter.com/markdalgleish)
+ - [express](https://github.com/expressjs/express)
+ - [GraphQL](https://github.com/graphql/graphql-js)
  - [Babel 6](https://github.com/babel/babel)
  - [Webpack](https://github.com/webpack/webpack)
 
@@ -19,5 +20,5 @@ I originally started this application for a job application challenge. (I got th
 git clone https://github.com/jeffreywalters/react-challenge.git MyApp
 cd MyApp
 npm install
-npm start
+node server.js
 ```

@@ -1,6 +1,7 @@
 import React from 'react'
 import { reduxForm, Field } from 'redux-form'
 import { Link } from 'react-router'
+import moment from 'moment'
 
 class RequestForm extends React.Component {
   static propTypes = {
@@ -37,21 +38,23 @@ class RequestForm extends React.Component {
           component={renderField}
         />
         <Field
-          name='updated_at'
-          id='updated_at'
+          name='updatedAt'
+          id='updatedAt'
           label='Updated At'
           className='form-control'
           type='text'
           disabled
+          format={(value, name) => moment(+value).format('YYYY-MM-DD')}
           component={renderField}
         />
         <Field
-          name='created_at'
-          id='created_at'
+          name='createdAt'
+          id='createdAt'
           label='Created At'
           className='form-control'
           type='text'
           disabled
+          format={(value, name) => moment(+value).format('YYYY-MM-DD')}
           component={renderField}
         />
         <Field
@@ -62,9 +65,9 @@ class RequestForm extends React.Component {
           className='form-control'
           type='select'
         >
-          <option value="Approved">Approved</option>
-          <option value="Denied">Denied</option>
-          <option value="Pending">Pending</option>
+          <option value="APPROVED">Approved</option>
+          <option value="DENIED">Denied</option>
+          <option value="PENDING">Pending</option>
         </Field>
         <div className="form-group">
           <div className="col-sm-offset-2 col-sm-10">

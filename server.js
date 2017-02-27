@@ -1,7 +1,14 @@
 const express = require('express')
 const path = require('path')
+const expressGraphQL = require('express-graphql')
+const schema = require('./app/api/schemas').default
 
 const app = express()
+
+app.use('/graphql', expressGraphQL({
+  graphiql: true,
+  schema
+}))
 
 if (process.env.NODE_ENV !== 'production') {
   const webpackMiddleware = require('webpack-dev-middleware')

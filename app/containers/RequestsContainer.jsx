@@ -22,12 +22,10 @@ class RequestsContainer extends React.Component {
     switch ( status ){
       case 'All Status':
         return requests
-      case 'Approved':
-        return requests.filter( request => request.get('status') === 'Approved' )
-      case 'Pending':
-        return requests.filter(request => request.get('status') === 'Pending' )
-      case 'Denied':
-        return requests.filter(request => request.get('status') === 'Denied' )
+      case 'APPROVED':
+      case 'PENDING':
+      case 'DENIED':
+        return requests.filter(request => request.get('status') === status )
       default:
         return requests
     }

@@ -1,6 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router'
 
+String.prototype.capitalize = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+}
+
 class RequestFilter extends React.Component {
   static propTypes = {
     setFilter: React.PropTypes.func,
@@ -20,9 +24,9 @@ class RequestFilter extends React.Component {
     // filter select list
     const statusList = [
       'All Status',
-      'Approved',
-      'Pending',
-      'Denied'
+      'APPROVED',
+      'PENDING',
+      'DENIED'
     ]
 
     return (
@@ -34,7 +38,7 @@ class RequestFilter extends React.Component {
           onChange={this._handleFilterChange}
           className='form-control'
         >
-          {statusList.map((type, i) => <option key={i} value={type}>{type}</option>)}
+          {statusList.map((type, i) => <option key={i} value={type}>{type.capitalize()}</option>)}
         </select>
         &nbsp;&nbsp;&nbsp;
         <Link to='/details/5'>Go to details</Link>
