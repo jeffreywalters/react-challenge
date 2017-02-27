@@ -62,7 +62,7 @@ class RequestTable extends React.Component {
                     placement='right'
                     overlay={this._getPopover(request.get('id'), request.get('status'))
                   }>
-                    <a href='javascript:void(0)'>{request.get('status')}</a>
+                    <a href='javascript:void(0)'>{request.get('status').capitalize()}</a>
                   </OverlayTrigger>
                 </td>
                 <td>{this._formatDate(request.get('updatedAt'))}</td>
@@ -115,7 +115,7 @@ class RequestTable extends React.Component {
               data-id={requestid}
               data-status={status}
             >
-              {status}
+              {status.capitalize()}
             </a>
           </div>
         )

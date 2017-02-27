@@ -1,10 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-String.prototype.capitalize = function () {
-  return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
-}
-
 class RequestFilter extends React.Component {
   static propTypes = {
     setFilter: React.PropTypes.func,
