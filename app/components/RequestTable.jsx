@@ -5,6 +5,10 @@ import { Link } from 'react-router'
 import { OverlayTrigger, Popover, Modal, Button } from 'react-bootstrap'
 
 class RequestTable extends React.Component {
+  constructor(props) {
+    super(props)
+    this.trigger = []
+  }
   static propTypes = {
     requests: React.PropTypes.object.isRequired,
     deleteRequest: React.PropTypes.func,
@@ -27,7 +31,7 @@ class RequestTable extends React.Component {
     return (
       <div className="panel panel-primary">
         <div className="panel-heading">
-          Requests ({this.props.filter})
+          Requests &nbsp;<span style={{color: '#CCC'}}>({this.props.filter.capitalize()})</span>
           <div style={{ float: 'right' }}>
             <Link to='add' className='btn btn-info btn-xs'>
               <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -56,7 +60,7 @@ class RequestTable extends React.Component {
                 <td>{request.get('title')}</td>
                 <td>
                   <OverlayTrigger
-                    ref={`trigger${request.get('id')}`}
+                    ref={trigger => { this.trigger[request.get('id')] = trigger }}
                     trigger='click'
                     rootClose
                     placement='right'
@@ -111,9 +115,7 @@ class RequestTable extends React.Component {
         {statuses.map((status, i) => (
           <div key={i}>
             <a
-              onClick={(e) => { this._handleStatusClick(e); me.refs[`trigger${requestid}`].hide() }}
-              data-id={requestid}
-              data-status={status}
+              onClick={(e) => { this._handleStatusClick(requestid, status); me.trigger[requestid].hide() }}
             >
               {status.capitalize()}
             </a>
@@ -124,11 +126,8 @@ class RequestTable extends React.Component {
     )
   }
 
-  _handleStatusClick = (e) => {
-    const elm = e.target
-    const id = elm.getAttribute('data-id')
-    const newstatus = elm.getAttribute('data-status')
-    this.props.setStatus(id, newstatus)
+  _handleStatusClick = (requestid, newstatus) => {
+    this.props.setStatus(requestid, newstatus)
   }
 
   _handleDeleteClick = (id) => {

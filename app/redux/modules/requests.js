@@ -55,7 +55,6 @@ export const actions = {
         })
         if (response.status >= 300) throw new Error(response.status)
         const requests = await response.json()
-        console.log('requests', requests)
         dispatch(this.fetchSuccess(requests.data.requests))
       } catch (error) {
         dispatch({ type: constants.FETCH_FAILURE, error })
@@ -69,8 +68,6 @@ export const actions = {
     return { id: id, type: constants.REMOVE_REQUEST }
   },
   setStatus(id, newStatus){
-    console.log('newStatus', newStatus)
-    console.log(moment().format('x'))
     return {
       id: id,
       status: newStatus,
@@ -88,7 +85,6 @@ export const actions = {
     }
   },
   addRequest({status, title}) {
-    console.log('called addRequest', title)
     return {
       id: (new Date().getTime()).toString(),
       status: status,
@@ -200,7 +196,6 @@ export default function(state = initialState, action = {}) {
       return state
         .set('loading', false)
         .updateIn(['requests'], requests => {
-          console.log('called addRequest in reducer', action.title)
           return requests.push(
             Immutable.Map()
               .set('id', action.id)
