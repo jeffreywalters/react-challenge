@@ -11,8 +11,8 @@ import EditRequestContainer from './containers/EditRequestContainer'
 import AddRequestContainer from 'containers/AddRequestContainer'
 import createStore from './redux/createStore'
 
-String.prototype.capitalize = function () {
-  return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+String.prototype.capitalize = function() {
+  return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase()
 }
 
 const reduxStore = createStore({})
@@ -77,6 +77,6 @@ const render = () => {
   ReactDOM.render(<App />, document.getElementById('container'))
 }
 
-reduxStore.subscribe(render)
+// reduxStore.subscribe(render)
 
 render()
