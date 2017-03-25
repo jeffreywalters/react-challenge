@@ -46,8 +46,9 @@ class RequestsContainer extends React.Component {
   render(){
     const { requests, loading } = this.props
     const requestsFiltered = this._getFilteredRequests(requests, this.state.filter)
+    const containerStyle = { minHeight: 500 }
     return (
-      <div style={{ minHeight: 500 }}>
+      <div style={containerStyle}>
         <h1>Requests</h1>
         <RequestFilter
           setFilter={this._setFilter}

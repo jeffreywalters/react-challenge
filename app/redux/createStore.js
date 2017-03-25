@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore, compose } from 'redux'
 import rootReducer from './rootReducer'
 import thunkMiddleware from 'redux-thunk'
-import Immutable from 'immutable'
+// import Immutable from 'immutable'
 
 const createRequestStore = (initialState = {}, ...extraMiddleware) => {
   // ======================================================

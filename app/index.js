@@ -12,13 +12,14 @@ import EditRequestContainer from './containers/EditRequestContainer'
 import AddRequestContainer from 'containers/AddRequestContainer'
 import createStore from './redux/createStore'
 
+// TODO: Do NOT modify the String prototype
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase()
 }
 
 // const initialState = window.__INITIAL_STATE__ && Immutable.fromJS(JSON.stringify(window.__INITIAL_STATE__))
 const initialState = window.__INITIAL_STATE__ && {requests: Immutable.fromJS(window.__INITIAL_STATE__)}
-console.log(initialState)
+// console.log(initialState)
 const reduxStore = createStore(initialState)
 const { dispatch } = reduxStore
 
